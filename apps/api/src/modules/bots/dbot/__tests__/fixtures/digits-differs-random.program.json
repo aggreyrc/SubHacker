@@ -1,0 +1,687 @@
+{
+ "suggestedSymbol": "R_50",
+ "init": [
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "Max Loss Amount"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_number",
+     "f": {
+      "NUM": "30"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "Expected Profit"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_number",
+     "f": {
+      "NUM": "20"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "Win Amount"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_number",
+     "f": {
+      "NUM": "0.35"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "Initial Amount"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_number",
+     "f": {
+      "NUM": "0.35"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "slos"
+   },
+   "v": {
+    "VALUE": {
+     "type": "logic_boolean",
+     "f": {
+      "BOOL": "FALSE"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "JlhLos"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_number",
+     "f": {
+      "NUM": "0"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "LDP"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_random_int",
+     "v": {
+      "FROM": {
+       "type": "math_number",
+       "f": {
+        "NUM": "0"
+       }
+      },
+      "TO": {
+       "type": "math_number",
+       "f": {
+        "NUM": "9"
+       }
+      }
+     }
+    }
+   }
+  }
+ ],
+ "submarket": [
+  {
+   "type": "tradeOptions",
+   "f": {
+    "DURATIONTYPE_LIST": "t",
+    "CURRENCY_LIST": "USD"
+   },
+   "v": {
+    "DURATION": {
+     "type": "math_number",
+     "f": {
+      "NUM": "1"
+     }
+    },
+    "AMOUNT": {
+     "type": "variables_get",
+     "f": {
+      "VAR": "Initial Amount"
+     }
+    },
+    "PREDICTION": {
+     "type": "variables_get",
+     "f": {
+      "VAR": "LDP"
+     }
+    }
+   }
+  }
+ ],
+ "before": [
+  {
+   "type": "notify",
+   "f": {
+    "NOTIFICATION_TYPE": "warn",
+    "NOTIFICATION_SOUND": "silent"
+   },
+   "v": {
+    "MESSAGE": {
+     "type": "text_join",
+     "m": {
+      "items": "2"
+     },
+     "v": {
+      "ADD0": {
+       "type": "text",
+       "f": {
+        "TEXT": "Trading LDP :"
+       }
+      },
+      "ADD1": {
+       "type": "variables_get",
+       "f": {
+        "VAR": "LDP"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "type": "purchase",
+   "f": {
+    "PURCHASE_LIST": "DIGITDIFF"
+   }
+  }
+ ],
+ "during": [],
+ "after": [
+  {
+   "type": "controls_if",
+   "m": {
+    "else": "1"
+   },
+   "v": {
+    "IF0": {
+     "type": "contract_check_result",
+     "f": {
+      "CHECK_RESULT": "win"
+     }
+    }
+   },
+   "s": {
+    "DO0": [
+     {
+      "type": "notify",
+      "f": {
+       "NOTIFICATION_TYPE": "success",
+       "NOTIFICATION_SOUND": "silent"
+      },
+      "v": {
+       "MESSAGE": {
+        "type": "text_join",
+        "m": {
+         "items": "2"
+        },
+        "v": {
+         "ADD0": {
+          "type": "text",
+          "f": {
+           "TEXT": "Alhamdullilah Profit :"
+          }
+         },
+         "ADD1": {
+          "type": "read_details",
+          "f": {
+           "DETAIL_INDEX": "4"
+          }
+         }
+        }
+       }
+      }
+     },
+     {
+      "type": "variables_set",
+      "f": {
+       "VAR": "JlhLos"
+      },
+      "v": {
+       "VALUE": {
+        "type": "math_number",
+        "f": {
+         "NUM": "0"
+        }
+       }
+      }
+     },
+     {
+      "type": "controls_if",
+      "v": {
+       "IF0": {
+        "type": "logic_compare",
+        "f": {
+         "OP": "GTE"
+        },
+        "v": {
+         "A": {
+          "type": "variables_get",
+          "f": {
+           "VAR": "Initial Amount"
+          }
+         },
+         "B": {
+          "type": "math_arithmetic",
+          "f": {
+           "OP": "MULTIPLY"
+          },
+          "v": {
+           "A": {
+            "type": "variables_get",
+            "f": {
+             "VAR": "Win Amount"
+            }
+           },
+           "B": {
+            "type": "math_number",
+            "f": {
+             "NUM": "2"
+            }
+           }
+          }
+         }
+        }
+       }
+      },
+      "s": {
+       "DO0": [
+        {
+         "type": "variables_set",
+         "f": {
+          "VAR": "Initial Amount"
+         },
+         "v": {
+          "VALUE": {
+           "type": "variables_get",
+           "f": {
+            "VAR": "Win Amount"
+           }
+          }
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "controls_if",
+      "m": {
+       "else": "1"
+      },
+      "v": {
+       "IF0": {
+        "type": "logic_compare",
+        "f": {
+         "OP": "EQ"
+        },
+        "v": {
+         "A": {
+          "type": "variables_get",
+          "f": {
+           "VAR": "slos"
+          }
+         },
+         "B": {
+          "type": "logic_boolean",
+          "f": {
+           "BOOL": "TRUE"
+          }
+         }
+        }
+       }
+      },
+      "s": {
+       "DO0": [
+        {
+         "type": "variables_set",
+         "f": {
+          "VAR": "slos"
+         },
+         "v": {
+          "VALUE": {
+           "type": "logic_boolean",
+           "f": {
+            "BOOL": "FALSE"
+           }
+          }
+         }
+        },
+        {
+         "type": "variables_set",
+         "f": {
+          "VAR": "Initial Amount"
+         },
+         "v": {
+          "VALUE": {
+           "type": "variables_get",
+           "f": {
+            "VAR": "Win Amount"
+           }
+          }
+         }
+        }
+       ],
+       "ELSE": [
+        {
+         "type": "variables_set",
+         "f": {
+          "VAR": "Initial Amount"
+         },
+         "v": {
+          "VALUE": {
+           "type": "math_arithmetic",
+           "f": {
+            "OP": "ADD"
+           },
+           "v": {
+            "A": {
+             "type": "math_single",
+             "f": {
+              "OP": "ABS"
+             },
+             "v": {
+              "NUM": {
+               "type": "variables_get",
+               "f": {
+                "VAR": "Initial Amount"
+               }
+              }
+             }
+            },
+            "B": {
+             "type": "read_details",
+             "f": {
+              "DETAIL_INDEX": "4"
+             }
+            }
+           }
+          }
+         }
+        },
+        {
+         "type": "variables_set",
+         "f": {
+          "VAR": "LDP"
+         },
+         "v": {
+          "VALUE": {
+           "type": "math_random_int",
+           "v": {
+            "FROM": {
+             "type": "math_number",
+             "f": {
+              "NUM": "0"
+             }
+            },
+            "TO": {
+             "type": "math_number",
+             "f": {
+              "NUM": "9"
+             }
+            }
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "ELSE": [
+     {
+      "type": "notify",
+      "f": {
+       "NOTIFICATION_TYPE": "error",
+       "NOTIFICATION_SOUND": "silent"
+      },
+      "v": {
+       "MESSAGE": {
+        "type": "text_join",
+        "m": {
+         "items": "2"
+        },
+        "v": {
+         "ADD0": {
+          "type": "text",
+          "f": {
+           "TEXT": "Lost: "
+          }
+         },
+         "ADD1": {
+          "type": "math_single",
+          "f": {
+           "OP": "ABS"
+          },
+          "v": {
+           "NUM": {
+            "type": "read_details",
+            "f": {
+             "DETAIL_INDEX": "4"
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     {
+      "type": "variables_set",
+      "f": {
+       "VAR": "JlhLos"
+      },
+      "v": {
+       "VALUE": {
+        "type": "math_arithmetic",
+        "f": {
+         "OP": "ADD"
+        },
+        "v": {
+         "A": {
+          "type": "variables_get",
+          "f": {
+           "VAR": "JlhLos"
+          }
+         },
+         "B": {
+          "type": "math_number",
+          "f": {
+           "NUM": "1"
+          }
+         }
+        }
+       }
+      }
+     },
+     {
+      "type": "variables_set",
+      "f": {
+       "VAR": "slos"
+      },
+      "v": {
+       "VALUE": {
+        "type": "logic_boolean",
+        "f": {
+         "BOOL": "TRUE"
+        }
+       }
+      }
+     },
+     {
+      "type": "controls_if",
+      "m": {
+       "else": "1"
+      },
+      "v": {
+       "IF0": {
+        "type": "logic_compare",
+        "f": {
+         "OP": "EQ"
+        },
+        "v": {
+         "A": {
+          "type": "variables_get",
+          "f": {
+           "VAR": "JlhLos"
+          }
+         },
+         "B": {
+          "type": "math_number",
+          "f": {
+           "NUM": "2"
+          }
+         }
+        }
+       }
+      },
+      "s": {
+       "DO0": [
+        {
+         "type": "variables_set",
+         "f": {
+          "VAR": "Initial Amount"
+         },
+         "v": {
+          "VALUE": {
+           "type": "variables_get",
+           "f": {
+            "VAR": "Win Amount"
+           }
+          }
+         }
+        },
+        {
+         "type": "variables_set",
+         "f": {
+          "VAR": "JlhLos"
+         },
+         "v": {
+          "VALUE": {
+           "type": "math_number",
+           "f": {
+            "NUM": "0"
+           }
+          }
+         }
+        }
+       ],
+       "ELSE": [
+        {
+         "type": "math_change",
+         "f": {
+          "VAR": "Initial Amount"
+         },
+         "v": {
+          "DELTA": {
+           "type": "math_arithmetic",
+           "f": {
+            "OP": "MULTIPLY"
+           },
+           "v": {
+            "A": {
+             "type": "math_single",
+             "f": {
+              "OP": "ABS"
+             },
+             "v": {
+              "NUM": {
+               "type": "variables_get",
+               "f": {
+                "VAR": "Initial Amount"
+               }
+              }
+             }
+            },
+            "B": {
+             "type": "math_number",
+             "f": {
+              "NUM": "10"
+             }
+            }
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "type": "notify",
+   "f": {
+    "NOTIFICATION_TYPE": "info",
+    "NOTIFICATION_SOUND": "silent"
+   },
+   "v": {
+    "MESSAGE": {
+     "type": "text_join",
+     "m": {
+      "items": "2"
+     },
+     "v": {
+      "ADD0": {
+       "type": "text",
+       "f": {
+        "TEXT": "Total Profit: "
+       }
+      },
+      "ADD1": {
+       "type": "total_profit"
+      }
+     }
+    }
+   }
+  },
+  {
+   "type": "controls_if",
+   "m": {
+    "else": "1"
+   },
+   "v": {
+    "IF0": {
+     "type": "logic_compare",
+     "f": {
+      "OP": "LT"
+     },
+     "v": {
+      "A": {
+       "type": "total_profit"
+      },
+      "B": {
+       "type": "variables_get",
+       "f": {
+        "VAR": "Expected Profit"
+       }
+      }
+     }
+    }
+   },
+   "s": {
+    "DO0": [
+     {
+      "type": "trade_again"
+     }
+    ],
+    "ELSE": [
+     {
+      "type": "text_print",
+      "v": {
+       "TEXT": {
+        "type": "text_join",
+        "m": {
+         "items": "2"
+        },
+        "v": {
+         "ADD0": {
+          "type": "text",
+          "f": {
+           "TEXT": "Selesai, Alhamdullilah Total Profit :"
+          }
+         },
+         "ADD1": {
+          "type": "total_profit"
+         }
+        }
+       }
+      }
+     }
+    ]
+   }
+  }
+ ],
+ "procs": {},
+ "ignored": []
+}

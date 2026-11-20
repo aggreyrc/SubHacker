@@ -1,0 +1,383 @@
+{
+ "suggestedSymbol": "R_100",
+ "init": [
+  {
+   "type": "text_print",
+   "v": {
+    "TEXT": {
+     "type": "text",
+     "f": {
+      "TEXT": "About To Print Dollars 💵 All The Best"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "Loss"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_number",
+     "f": {
+      "NUM": "1000"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "Target Profit"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_number",
+     "f": {
+      "NUM": "607"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "Stake"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_number",
+     "f": {
+      "NUM": "2"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "stake 2"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_number",
+     "f": {
+      "NUM": "2"
+     }
+    }
+   }
+  }
+ ],
+ "submarket": [
+  {
+   "type": "tradeOptions",
+   "f": {
+    "DURATIONTYPE_LIST": "t",
+    "CURRENCY_LIST": "USD"
+   },
+   "v": {
+    "DURATION": {
+     "type": "math_number",
+     "f": {
+      "NUM": "1"
+     }
+    },
+    "AMOUNT": {
+     "type": "variables_get",
+     "f": {
+      "VAR": "Stake"
+     }
+    },
+    "PREDICTION": {
+     "type": "math_number",
+     "f": {
+      "NUM": "5"
+     }
+    }
+   }
+  }
+ ],
+ "before": [
+  {
+   "type": "purchase",
+   "f": {
+    "PURCHASE_LIST": "DIGITOVER"
+   }
+  }
+ ],
+ "during": [],
+ "after": [
+  {
+   "type": "controls_if",
+   "m": {
+    "else": "1"
+   },
+   "v": {
+    "IF0": {
+     "type": "contract_check_result",
+     "f": {
+      "CHECK_RESULT": "win"
+     }
+    }
+   },
+   "s": {
+    "DO0": [
+     {
+      "type": "notify",
+      "f": {
+       "NOTIFICATION_TYPE": "success",
+       "NOTIFICATION_SOUND": "silent"
+      },
+      "v": {
+       "MESSAGE": {
+        "type": "text_join",
+        "m": {
+         "items": "2"
+        },
+        "v": {
+         "ADD0": {
+          "type": "text",
+          "f": {
+           "TEXT": "Ganhou: "
+          }
+         },
+         "ADD1": {
+          "type": "read_details",
+          "f": {
+           "DETAIL_INDEX": "4"
+          }
+         }
+        }
+       }
+      }
+     },
+     {
+      "type": "variables_set",
+      "f": {
+       "VAR": "Stake"
+      },
+      "v": {
+       "VALUE": {
+        "type": "variables_get",
+        "f": {
+         "VAR": "stake 2"
+        }
+       }
+      }
+     }
+    ],
+    "ELSE": [
+     {
+      "type": "notify",
+      "f": {
+       "NOTIFICATION_TYPE": "warn",
+       "NOTIFICATION_SOUND": "silent"
+      },
+      "v": {
+       "MESSAGE": {
+        "type": "text_join",
+        "m": {
+         "items": "2"
+        },
+        "v": {
+         "ADD0": {
+          "type": "text",
+          "f": {
+           "TEXT": "Perdeu: "
+          }
+         },
+         "ADD1": {
+          "type": "math_single",
+          "f": {
+           "OP": "ABS"
+          },
+          "v": {
+           "NUM": {
+            "type": "read_details",
+            "f": {
+             "DETAIL_INDEX": "4"
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     {
+      "type": "math_change",
+      "f": {
+       "VAR": "Stake"
+      },
+      "v": {
+       "DELTA": {
+        "type": "math_arithmetic",
+        "f": {
+         "OP": "MULTIPLY"
+        },
+        "v": {
+         "A": {
+          "type": "math_single",
+          "f": {
+           "OP": "ABS"
+          },
+          "v": {
+           "NUM": {
+            "type": "read_details",
+            "f": {
+             "DETAIL_INDEX": "4"
+            }
+           }
+          }
+         },
+         "B": {
+          "type": "math_number",
+          "f": {
+           "NUM": "1"
+          }
+         }
+        }
+       }
+      }
+     },
+     {
+      "type": "controls_if",
+      "v": {
+       "IF0": {
+        "type": "logic_compare",
+        "f": {
+         "OP": "GTE"
+        },
+        "v": {
+         "A": {
+          "type": "math_single",
+          "f": {
+           "OP": "ABS"
+          },
+          "v": {
+           "NUM": {
+            "type": "read_details",
+            "f": {
+             "DETAIL_INDEX": "4"
+            }
+           }
+          }
+         },
+         "B": {
+          "type": "variables_get",
+          "f": {
+           "VAR": "Loss"
+          }
+         }
+        }
+       }
+      },
+      "s": {
+       "DO0": [
+        {
+         "type": "variables_set",
+         "f": {
+          "VAR": "Stake"
+         },
+         "v": {
+          "VALUE": {
+           "type": "variables_get",
+           "f": {
+            "VAR": "stake 2"
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "type": "notify",
+   "f": {
+    "NOTIFICATION_TYPE": "info",
+    "NOTIFICATION_SOUND": "silent"
+   },
+   "v": {
+    "MESSAGE": {
+     "type": "text_join",
+     "m": {
+      "items": "2"
+     },
+     "v": {
+      "ADD0": {
+       "type": "text",
+       "f": {
+        "TEXT": "Total Profit: "
+       }
+      },
+      "ADD1": {
+       "type": "total_profit"
+      }
+     }
+    }
+   }
+  },
+  {
+   "type": "controls_if",
+   "m": {
+    "else": "1"
+   },
+   "v": {
+    "IF0": {
+     "type": "logic_compare",
+     "f": {
+      "OP": "LT"
+     },
+     "v": {
+      "A": {
+       "type": "total_profit"
+      },
+      "B": {
+       "type": "variables_get",
+       "f": {
+        "VAR": "Target Profit"
+       }
+      }
+     }
+    }
+   },
+   "s": {
+    "DO0": [
+     {
+      "type": "trade_again"
+     }
+    ],
+    "ELSE": [
+     {
+      "type": "text_print",
+      "v": {
+       "TEXT": {
+        "type": "text_join",
+        "m": {
+         "items": "2"
+        },
+        "v": {
+         "ADD0": {
+          "type": "text",
+          "f": {
+           "TEXT": "Dollars Printed Successfully : "
+          }
+         },
+         "ADD1": {
+          "type": "total_profit"
+         }
+        }
+       }
+      }
+     }
+    ]
+   }
+  }
+ ],
+ "procs": {},
+ "ignored": []
+}

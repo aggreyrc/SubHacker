@@ -1,0 +1,1805 @@
+{
+ "suggestedSymbol": "R_50",
+ "init": [
+  {
+   "type": "variables_set",
+   "f": {
+    "TEXT": "Example label",
+    "VAR": "stake"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_number",
+     "f": {
+      "NUM": "10"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "stake win"
+   },
+   "v": {
+    "VALUE": {
+     "type": "variables_get",
+     "f": {
+      "VAR": "stake"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "martingale"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_number",
+     "f": {
+      "NUM": "12"
+     }
+    }
+   }
+  },
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "take profit"
+   },
+   "v": {
+    "VALUE": {
+     "type": "math_number",
+     "f": {
+      "NUM": "80"
+     }
+    }
+   }
+  }
+ ],
+ "submarket": [
+  {
+   "type": "variables_set",
+   "f": {
+    "VAR": "trader"
+   },
+   "v": {
+    "VALUE": {
+     "type": "logic_null"
+    }
+   }
+  },
+  {
+   "type": "controls_whileUntil",
+   "f": {
+    "MODE": "UNTIL"
+   },
+   "v": {
+    "BOOL": {
+     "type": "logic_compare",
+     "f": {
+      "OP": "NEQ"
+     },
+     "v": {
+      "A": {
+       "type": "variables_get",
+       "f": {
+        "VAR": "trader"
+       }
+      },
+      "B": {
+       "type": "logic_null"
+      }
+     }
+    }
+   },
+   "s": {
+    "DO": [
+     {
+      "type": "controls_if",
+      "m": {
+       "else": "1"
+      },
+      "v": {
+       "IF0": {
+        "type": "math_number_property",
+        "m": {
+         "divisor_input": "false"
+        },
+        "f": {
+         "PROPERTY": "EVEN"
+        },
+        "v": {
+         "NUMBER_TO_CHECK": {
+          "type": "total_runs"
+         }
+        }
+       }
+      },
+      "s": {
+       "DO0": [
+        {
+         "type": "controls_if",
+         "m": {
+          "else": "1"
+         },
+         "v": {
+          "IF0": {
+           "type": "math_number_property",
+           "m": {
+            "divisor_input": "false"
+           },
+           "f": {
+            "PROPERTY": "EVEN"
+           },
+           "v": {
+            "NUMBER_TO_CHECK": {
+             "type": "last_digit"
+            }
+           }
+          }
+         },
+         "s": {
+          "DO0": [
+           {
+            "type": "variables_set",
+            "f": {
+             "VAR": "trader"
+            },
+            "v": {
+             "VALUE": {
+              "type": "text",
+              "f": {
+               "TEXT": "put"
+              }
+             }
+            }
+           },
+           {
+            "type": "notify",
+            "f": {
+             "NOTIFICATION_TYPE": "success",
+             "NOTIFICATION_SOUND": "silent"
+            },
+            "v": {
+             "MESSAGE": {
+              "type": "text_join",
+              "m": {
+               "items": "5"
+              },
+              "v": {
+               "ADD0": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "trader"
+                }
+               },
+               "ADD1": {
+                "type": "text",
+                "f": {
+                 "TEXT": "   "
+                }
+               },
+               "ADD2": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "rsi"
+                }
+               },
+               "ADD3": {
+                "type": "text",
+                "f": {
+                 "TEXT": "✅"
+                }
+               },
+               "ADD4": {
+                "type": "text",
+                "f": {
+                 "TEXT": " ⇶ "
+                }
+               }
+              }
+             }
+            }
+           },
+           {
+            "type": "timeout",
+            "s": {
+             "TIMEOUTSTACK": [
+              {
+               "type": "tradeOptions",
+               "f": {
+                "DURATIONTYPE_LIST": "t",
+                "CURRENCY_LIST": "USD",
+                "BARRIEROFFSETTYPE_LIST": "+",
+                "SECONDBARRIEROFFSETTYPE_LIST": "-"
+               },
+               "v": {
+                "DURATION": {
+                 "type": "math_number",
+                 "f": {
+                  "NUM": "6"
+                 }
+                },
+                "AMOUNT": {
+                 "type": "variables_get",
+                 "f": {
+                  "VAR": "stake"
+                 }
+                },
+                "PREDICTION": {
+                 "type": "math_number",
+                 "f": {
+                  "NUM": "4"
+                 }
+                }
+               }
+              }
+             ]
+            },
+            "v": {
+             "SECONDS": {
+              "type": "math_number",
+              "f": {
+               "NUM": "0.000001"
+              }
+             }
+            }
+           }
+          ],
+          "ELSE": [
+           {
+            "type": "variables_set",
+            "f": {
+             "VAR": "trader"
+            },
+            "v": {
+             "VALUE": {
+              "type": "text",
+              "f": {
+               "TEXT": "call"
+              }
+             }
+            }
+           },
+           {
+            "type": "notify",
+            "f": {
+             "NOTIFICATION_TYPE": "success",
+             "NOTIFICATION_SOUND": "silent"
+            },
+            "v": {
+             "MESSAGE": {
+              "type": "text_join",
+              "m": {
+               "items": "5"
+              },
+              "v": {
+               "ADD0": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "trader"
+                }
+               },
+               "ADD1": {
+                "type": "text",
+                "f": {
+                 "TEXT": "   "
+                }
+               },
+               "ADD2": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "rsi"
+                }
+               },
+               "ADD3": {
+                "type": "text",
+                "f": {
+                 "TEXT": "✅"
+                }
+               },
+               "ADD4": {
+                "type": "text",
+                "f": {
+                 "TEXT": " ⇶ "
+                }
+               }
+              }
+             }
+            }
+           },
+           {
+            "type": "timeout",
+            "s": {
+             "TIMEOUTSTACK": [
+              {
+               "type": "tradeOptions",
+               "f": {
+                "DURATIONTYPE_LIST": "t",
+                "CURRENCY_LIST": "USD",
+                "BARRIEROFFSETTYPE_LIST": "+",
+                "SECONDBARRIEROFFSETTYPE_LIST": "-"
+               },
+               "v": {
+                "DURATION": {
+                 "type": "math_number",
+                 "f": {
+                  "NUM": "3"
+                 }
+                },
+                "AMOUNT": {
+                 "type": "variables_get",
+                 "f": {
+                  "VAR": "stake"
+                 }
+                },
+                "PREDICTION": {
+                 "type": "math_number",
+                 "f": {
+                  "NUM": "0"
+                 }
+                }
+               }
+              }
+             ]
+            },
+            "v": {
+             "SECONDS": {
+              "type": "math_number",
+              "f": {
+               "NUM": "0.000001"
+              }
+             }
+            }
+           }
+          ]
+         }
+        }
+       ],
+       "ELSE": [
+        {
+         "type": "controls_if",
+         "m": {
+          "else": "1"
+         },
+         "v": {
+          "IF0": {
+           "type": "math_number_property",
+           "m": {
+            "divisor_input": "false"
+           },
+           "f": {
+            "PROPERTY": "EVEN"
+           },
+           "v": {
+            "NUMBER_TO_CHECK": {
+             "type": "last_digit"
+            }
+           }
+          }
+         },
+         "s": {
+          "DO0": [
+           {
+            "type": "variables_set",
+            "f": {
+             "VAR": "trader"
+            },
+            "v": {
+             "VALUE": {
+              "type": "text",
+              "f": {
+               "TEXT": "call"
+              }
+             }
+            }
+           },
+           {
+            "type": "notify",
+            "f": {
+             "NOTIFICATION_TYPE": "success",
+             "NOTIFICATION_SOUND": "silent"
+            },
+            "v": {
+             "MESSAGE": {
+              "type": "text_join",
+              "m": {
+               "items": "5"
+              },
+              "v": {
+               "ADD0": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "trader"
+                }
+               },
+               "ADD1": {
+                "type": "text",
+                "f": {
+                 "TEXT": "   "
+                }
+               },
+               "ADD2": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "rsi"
+                }
+               },
+               "ADD3": {
+                "type": "text",
+                "f": {
+                 "TEXT": "✅"
+                }
+               },
+               "ADD4": {
+                "type": "text",
+                "f": {
+                 "TEXT": " ⇶ "
+                }
+               }
+              }
+             }
+            }
+           },
+           {
+            "type": "timeout",
+            "s": {
+             "TIMEOUTSTACK": [
+              {
+               "type": "tradeOptions",
+               "f": {
+                "DURATIONTYPE_LIST": "t",
+                "CURRENCY_LIST": "USD",
+                "BARRIEROFFSETTYPE_LIST": "+",
+                "SECONDBARRIEROFFSETTYPE_LIST": "-"
+               },
+               "v": {
+                "DURATION": {
+                 "type": "math_number",
+                 "f": {
+                  "NUM": "2"
+                 }
+                },
+                "AMOUNT": {
+                 "type": "variables_get",
+                 "f": {
+                  "VAR": "stake"
+                 }
+                },
+                "PREDICTION": {
+                 "type": "math_number",
+                 "f": {
+                  "NUM": "0"
+                 }
+                }
+               }
+              }
+             ]
+            },
+            "v": {
+             "SECONDS": {
+              "type": "math_number",
+              "f": {
+               "NUM": "0.000001"
+              }
+             }
+            }
+           }
+          ],
+          "ELSE": [
+           {
+            "type": "variables_set",
+            "f": {
+             "VAR": "trader"
+            },
+            "v": {
+             "VALUE": {
+              "type": "text",
+              "f": {
+               "TEXT": "call"
+              }
+             }
+            }
+           },
+           {
+            "type": "notify",
+            "f": {
+             "NOTIFICATION_TYPE": "success",
+             "NOTIFICATION_SOUND": "silent"
+            },
+            "v": {
+             "MESSAGE": {
+              "type": "text_join",
+              "m": {
+               "items": "5"
+              },
+              "v": {
+               "ADD0": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "trader"
+                }
+               },
+               "ADD1": {
+                "type": "text",
+                "f": {
+                 "TEXT": "   "
+                }
+               },
+               "ADD2": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "rsi"
+                }
+               },
+               "ADD3": {
+                "type": "text",
+                "f": {
+                 "TEXT": "✅"
+                }
+               },
+               "ADD4": {
+                "type": "text",
+                "f": {
+                 "TEXT": " ⇶ "
+                }
+               }
+              }
+             }
+            }
+           },
+           {
+            "type": "timeout",
+            "s": {
+             "TIMEOUTSTACK": [
+              {
+               "type": "tradeOptions",
+               "f": {
+                "DURATIONTYPE_LIST": "t",
+                "CURRENCY_LIST": "USD",
+                "BARRIEROFFSETTYPE_LIST": "+",
+                "SECONDBARRIEROFFSETTYPE_LIST": "-"
+               },
+               "v": {
+                "DURATION": {
+                 "type": "math_number",
+                 "f": {
+                  "NUM": "1"
+                 }
+                },
+                "AMOUNT": {
+                 "type": "variables_get",
+                 "f": {
+                  "VAR": "stake"
+                 }
+                },
+                "PREDICTION": {
+                 "type": "math_number",
+                 "f": {
+                  "NUM": "0"
+                 }
+                }
+               }
+              }
+             ]
+            },
+            "v": {
+             "SECONDS": {
+              "type": "math_number",
+              "f": {
+               "NUM": "0.000001"
+              }
+             }
+            }
+           }
+          ]
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "type": "notify",
+   "f": {
+    "NOTIFICATION_TYPE": "warn",
+    "NOTIFICATION_SOUND": "silent"
+   },
+   "v": {
+    "MESSAGE": {
+     "type": "text_join",
+     "m": {
+      "items": "5"
+     },
+     "v": {
+      "ADD0": {
+       "type": "variables_get",
+       "f": {
+        "VAR": "trader"
+       }
+      },
+      "ADD1": {
+       "type": "text",
+       "f": {
+        "TEXT": "   "
+       }
+      },
+      "ADD2": {
+       "type": "variables_get",
+       "f": {
+        "VAR": "rsi"
+       }
+      },
+      "ADD3": {
+       "type": "text",
+       "f": {
+        "TEXT": "❌"
+       }
+      },
+      "ADD4": {
+       "type": "text",
+       "f": {
+        "TEXT": " ⇶ "
+       }
+      }
+     }
+    }
+   }
+  }
+ ],
+ "before": [
+  {
+   "type": "timeout",
+   "s": {
+    "TIMEOUTSTACK": [
+     {
+      "type": "timeout",
+      "s": {
+       "TIMEOUTSTACK": [
+        {
+         "type": "purchase",
+         "f": {
+          "PURCHASE_LIST": "DIGITDIFF"
+         }
+        }
+       ]
+      },
+      "v": {
+       "SECONDS": {
+        "type": "math_number",
+        "f": {
+         "NUM": "0.000001"
+        }
+       }
+      }
+     }
+    ]
+   },
+   "v": {
+    "SECONDS": {
+     "type": "math_number",
+     "f": {
+      "NUM": "1"
+     }
+    }
+   }
+  }
+ ],
+ "during": [],
+ "after": [
+  {
+   "type": "controls_if",
+   "m": {
+    "else": "1"
+   },
+   "v": {
+    "IF0": {
+     "type": "logic_compare",
+     "f": {
+      "OP": "GTE"
+     },
+     "v": {
+      "A": {
+       "type": "total_profit"
+      },
+      "B": {
+       "type": "variables_get",
+       "f": {
+        "VAR": "take profit"
+       }
+      }
+     }
+    }
+   },
+   "s": {
+    "DO0": [
+     {
+      "type": "text_print",
+      "v": {
+       "TEXT": {
+        "type": "text",
+        "f": {
+         "TEXT": "Take Profit Level has reached."
+        }
+       }
+      }
+     }
+    ],
+    "ELSE": [
+     {
+      "type": "controls_if",
+      "m": {
+       "else": "1"
+      },
+      "v": {
+       "IF0": {
+        "type": "contract_check_result",
+        "f": {
+         "CHECK_RESULT": "win"
+        }
+       }
+      },
+      "s": {
+       "DO0": [
+        {
+         "type": "timeout",
+         "s": {
+          "TIMEOUTSTACK": [
+           {
+            "type": "variables_set",
+            "f": {
+             "VAR": "stake"
+            },
+            "v": {
+             "VALUE": {
+              "type": "variables_get",
+              "f": {
+               "VAR": "stake win"
+              }
+             }
+            }
+           },
+           {
+            "type": "notify",
+            "f": {
+             "NOTIFICATION_TYPE": "success",
+             "NOTIFICATION_SOUND": "earned-money"
+            },
+            "v": {
+             "MESSAGE": {
+              "type": "text_join",
+              "m": {
+               "items": "5"
+              },
+              "v": {
+               "ADD0": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "trader"
+                }
+               },
+               "ADD1": {
+                "type": "text",
+                "f": {
+                 "TEXT": "   "
+                }
+               },
+               "ADD2": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "rsi"
+                }
+               },
+               "ADD3": {
+                "type": "text",
+                "f": {
+                 "TEXT": "✅"
+                }
+               },
+               "ADD4": {
+                "type": "text",
+                "f": {
+                 "TEXT": " ⇶ "
+                }
+               }
+              }
+             }
+            }
+           }
+          ]
+         },
+         "v": {
+          "SECONDS": {
+           "type": "math_number",
+           "f": {
+            "NUM": "0.000001"
+           }
+          }
+         }
+        }
+       ],
+       "ELSE": [
+        {
+         "type": "timeout",
+         "s": {
+          "TIMEOUTSTACK": [
+           {
+            "type": "variables_set",
+            "f": {
+             "VAR": "stake"
+            },
+            "v": {
+             "VALUE": {
+              "type": "math_arithmetic",
+              "f": {
+               "OP": "MULTIPLY"
+              },
+              "v": {
+               "A": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "stake"
+                }
+               },
+               "B": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "martingale"
+                }
+               }
+              }
+             }
+            }
+           },
+           {
+            "type": "notify",
+            "f": {
+             "NOTIFICATION_TYPE": "success",
+             "NOTIFICATION_SOUND": "error"
+            },
+            "v": {
+             "MESSAGE": {
+              "type": "text_join",
+              "m": {
+               "items": "5"
+              },
+              "v": {
+               "ADD0": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "trader"
+                }
+               },
+               "ADD1": {
+                "type": "text",
+                "f": {
+                 "TEXT": "   "
+                }
+               },
+               "ADD2": {
+                "type": "variables_get",
+                "f": {
+                 "VAR": "rsi"
+                }
+               },
+               "ADD3": {
+                "type": "text",
+                "f": {
+                 "TEXT": "✅"
+                }
+               },
+               "ADD4": {
+                "type": "text",
+                "f": {
+                 "TEXT": " ⇶ "
+                }
+               }
+              }
+             }
+            }
+           }
+          ]
+         },
+         "v": {
+          "SECONDS": {
+           "type": "math_number",
+           "f": {
+            "NUM": "1"
+           }
+          }
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "trade_again"
+     }
+    ]
+   }
+  }
+ ],
+ "procs": {
+  "D'Alembert Trade Amount": {
+   "args": [],
+   "body": [
+    {
+     "type": "controls_if",
+     "v": {
+      "IF0": {
+       "type": "logic_compare",
+       "f": {
+        "OP": "EQ"
+       },
+       "v": {
+        "A": {
+         "type": "variables_get",
+         "f": {
+          "VAR": "dalembert:expectedProfit"
+         }
+        },
+        "B": {
+         "type": "logic_null"
+        }
+       }
+      }
+     },
+     "s": {
+      "DO0": [
+       {
+        "type": "variables_set",
+        "f": {
+         "VAR": "dalembert:expectedProfit"
+        },
+        "v": {
+         "VALUE": {
+          "type": "text_prompt_ext",
+          "m": {
+           "type": "NUMBER"
+          },
+          "f": {
+           "TYPE": "NUMBER"
+          },
+          "v": {
+           "TEXT": {
+            "type": "text",
+            "f": {
+             "TEXT": "Expected Profit"
+            }
+           }
+          }
+         }
+        }
+       }
+      ]
+     }
+    },
+    {
+     "type": "controls_if",
+     "v": {
+      "IF0": {
+       "type": "logic_compare",
+       "f": {
+        "OP": "EQ"
+       },
+       "v": {
+        "A": {
+         "type": "variables_get",
+         "f": {
+          "VAR": "dalembert:maximumLoss"
+         }
+        },
+        "B": {
+         "type": "logic_null"
+        }
+       }
+      }
+     },
+     "s": {
+      "DO0": [
+       {
+        "type": "variables_set",
+        "f": {
+         "VAR": "dalembert:maximumLoss"
+        },
+        "v": {
+         "VALUE": {
+          "type": "text_prompt_ext",
+          "m": {
+           "type": "NUMBER"
+          },
+          "f": {
+           "TYPE": "NUMBER"
+          },
+          "v": {
+           "TEXT": {
+            "type": "text",
+            "f": {
+             "TEXT": "Maximum Loss Amount"
+            }
+           }
+          }
+         }
+        }
+       }
+      ]
+     }
+    },
+    {
+     "type": "controls_if",
+     "v": {
+      "IF0": {
+       "type": "logic_compare",
+       "f": {
+        "OP": "EQ"
+       },
+       "v": {
+        "A": {
+         "type": "variables_get",
+         "f": {
+          "VAR": "dalembert:amount"
+         }
+        },
+        "B": {
+         "type": "logic_null"
+        }
+       }
+      }
+     },
+     "s": {
+      "DO0": [
+       {
+        "type": "variables_set",
+        "f": {
+         "VAR": "dalembert:amount"
+        },
+        "v": {
+         "VALUE": {
+          "type": "text_prompt_ext",
+          "m": {
+           "type": "NUMBER"
+          },
+          "f": {
+           "TYPE": "NUMBER"
+          },
+          "v": {
+           "TEXT": {
+            "type": "text",
+            "f": {
+             "TEXT": "Trade Amount"
+            }
+           }
+          }
+         }
+        }
+       }
+      ]
+     }
+    },
+    {
+     "type": "controls_if",
+     "v": {
+      "IF0": {
+       "type": "logic_compare",
+       "f": {
+        "OP": "EQ"
+       },
+       "v": {
+        "A": {
+         "type": "variables_get",
+         "f": {
+          "VAR": "dalembert:size"
+         }
+        },
+        "B": {
+         "type": "logic_null"
+        }
+       }
+      }
+     },
+     "s": {
+      "DO0": [
+       {
+        "type": "variables_set",
+        "f": {
+         "VAR": "dalembert:size"
+        },
+        "v": {
+         "VALUE": {
+          "type": "math_number",
+          "f": {
+           "NUM": "1"
+          }
+         }
+        }
+       }
+      ]
+     }
+    },
+    {
+     "type": "controls_if",
+     "v": {
+      "IF0": {
+       "type": "logic_compare",
+       "f": {
+        "OP": "EQ"
+       },
+       "v": {
+        "A": {
+         "type": "variables_get",
+         "f": {
+          "VAR": "dalembert:profitUnits"
+         }
+        },
+        "B": {
+         "type": "logic_null"
+        }
+       }
+      }
+     },
+     "s": {
+      "DO0": [
+       {
+        "type": "variables_set",
+        "f": {
+         "VAR": "dalembert:profitUnits"
+        },
+        "v": {
+         "VALUE": {
+          "type": "math_number",
+          "f": {
+           "NUM": "0"
+          }
+         }
+        }
+       }
+      ]
+     }
+    },
+    {
+     "type": "controls_if",
+     "v": {
+      "IF0": {
+       "type": "logic_compare",
+       "f": {
+        "OP": "EQ"
+       },
+       "v": {
+        "A": {
+         "type": "variables_get",
+         "f": {
+          "VAR": "dalembert:totalProfit"
+         }
+        },
+        "B": {
+         "type": "logic_null"
+        }
+       }
+      }
+     },
+     "s": {
+      "DO0": [
+       {
+        "type": "variables_set",
+        "f": {
+         "VAR": "dalembert:totalProfit"
+        },
+        "v": {
+         "VALUE": {
+          "type": "math_number",
+          "f": {
+           "NUM": "0"
+          }
+         }
+        }
+       }
+      ]
+     }
+    }
+   ],
+   "ret": {
+    "type": "math_arithmetic",
+    "f": {
+     "OP": "MULTIPLY"
+    },
+    "v": {
+     "A": {
+      "type": "variables_get",
+      "f": {
+       "VAR": "dalembert:size"
+      }
+     },
+     "B": {
+      "type": "variables_get",
+      "f": {
+       "VAR": "dalembert:amount"
+      }
+     }
+    }
+   }
+  },
+  "D'Alembert Core Functionality": {
+   "args": [
+    "dalembert:resultIsWin"
+   ],
+   "body": [
+    {
+     "type": "controls_if",
+     "m": {
+      "else": "1"
+     },
+     "v": {
+      "IF0": {
+       "type": "variables_get",
+       "f": {
+        "VAR": "dalembert:resultIsWin"
+       }
+      }
+     },
+     "s": {
+      "DO0": [
+       {
+        "type": "variables_set",
+        "f": {
+         "VAR": "dalembert:profitUnits"
+        },
+        "v": {
+         "VALUE": {
+          "type": "math_arithmetic",
+          "f": {
+           "OP": "ADD"
+          },
+          "v": {
+           "A": {
+            "type": "variables_get",
+            "f": {
+             "VAR": "dalembert:profitUnits"
+            }
+           },
+           "B": {
+            "type": "variables_get",
+            "f": {
+             "VAR": "dalembert:size"
+            }
+           }
+          }
+         }
+        }
+       },
+       {
+        "type": "controls_if",
+        "m": {
+         "else": "1"
+        },
+        "v": {
+         "IF0": {
+          "type": "logic_compare",
+          "f": {
+           "OP": "GT"
+          },
+          "v": {
+           "A": {
+            "type": "variables_get",
+            "f": {
+             "VAR": "dalembert:size"
+            }
+           },
+           "B": {
+            "type": "math_number",
+            "f": {
+             "NUM": "1"
+            }
+           }
+          }
+         }
+        },
+        "s": {
+         "DO0": [
+          {
+           "type": "variables_set",
+           "f": {
+            "VAR": "dalembert:size"
+           },
+           "v": {
+            "VALUE": {
+             "type": "math_arithmetic",
+             "f": {
+              "OP": "MINUS"
+             },
+             "v": {
+              "A": {
+               "type": "variables_get",
+               "f": {
+                "VAR": "dalembert:size"
+               }
+              },
+              "B": {
+               "type": "math_number",
+               "f": {
+                "NUM": "1"
+               }
+              }
+             }
+            }
+           }
+          }
+         ],
+         "ELSE": [
+          {
+           "type": "variables_set",
+           "f": {
+            "VAR": "dalembert:profitUnits"
+           },
+           "v": {
+            "VALUE": {
+             "type": "math_number",
+             "f": {
+              "NUM": "0"
+             }
+            }
+           }
+          },
+          {
+           "type": "notify",
+           "f": {
+            "NOTIFICATION_TYPE": "success",
+            "NOTIFICATION_SOUND": "silent"
+           },
+           "v": {
+            "MESSAGE": {
+             "type": "text",
+             "f": {
+              "TEXT": "One DAlembert session finished successfully."
+             }
+            }
+           }
+          }
+         ]
+        }
+       }
+      ],
+      "ELSE": [
+       {
+        "type": "variables_set",
+        "f": {
+         "VAR": "dalembert:profitUnits"
+        },
+        "v": {
+         "VALUE": {
+          "type": "math_arithmetic",
+          "f": {
+           "OP": "MINUS"
+          },
+          "v": {
+           "A": {
+            "type": "variables_get",
+            "f": {
+             "VAR": "dalembert:profitUnits"
+            }
+           },
+           "B": {
+            "type": "variables_get",
+            "f": {
+             "VAR": "dalembert:size"
+            }
+           }
+          }
+         }
+        }
+       },
+       {
+        "type": "variables_set",
+        "f": {
+         "VAR": "dalembert:size"
+        },
+        "v": {
+         "VALUE": {
+          "type": "math_arithmetic",
+          "f": {
+           "OP": "ADD"
+          },
+          "v": {
+           "A": {
+            "type": "variables_get",
+            "f": {
+             "VAR": "dalembert:size"
+            }
+           },
+           "B": {
+            "type": "math_number",
+            "f": {
+             "NUM": "1"
+            }
+           }
+          }
+         }
+        }
+       }
+      ]
+     }
+    }
+   ],
+   "ret": null
+  },
+  "D'Alembert Trade Again After Purchase": {
+   "args": [
+    "dalembert:profit",
+    "dalembert:resultIsWin"
+   ],
+   "body": [
+    {
+     "type": "math_change",
+     "f": {
+      "VAR": "dalembert:totalProfit"
+     },
+     "v": {
+      "DELTA": {
+       "type": "variables_get",
+       "f": {
+        "VAR": "dalembert:profit"
+       }
+      }
+     }
+    },
+    {
+     "type": "variables_set",
+     "f": {
+      "VAR": "dalembert:totalProfit"
+     },
+     "v": {
+      "VALUE": {
+       "type": "math_arithmetic",
+       "f": {
+        "OP": "DIVIDE"
+       },
+       "v": {
+        "A": {
+         "type": "math_round",
+         "f": {
+          "OP": "ROUND"
+         },
+         "v": {
+          "NUM": {
+           "type": "math_arithmetic",
+           "f": {
+            "OP": "MULTIPLY"
+           },
+           "v": {
+            "A": {
+             "type": "variables_get",
+             "f": {
+              "VAR": "dalembert:totalProfit"
+             }
+            },
+            "B": {
+             "type": "math_number",
+             "f": {
+              "NUM": "100"
+             }
+            }
+           }
+          }
+         }
+        },
+        "B": {
+         "type": "math_number",
+         "f": {
+          "NUM": "100"
+         }
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "controls_if",
+     "m": {
+      "else": "1"
+     },
+     "v": {
+      "IF0": {
+       "type": "variables_get",
+       "f": {
+        "VAR": "dalembert:resultIsWin"
+       }
+      }
+     },
+     "s": {
+      "DO0": [
+       {
+        "type": "notify",
+        "f": {
+         "NOTIFICATION_TYPE": "success",
+         "NOTIFICATION_SOUND": "silent"
+        },
+        "v": {
+         "MESSAGE": {
+          "type": "text_join",
+          "m": {
+           "items": "2"
+          },
+          "v": {
+           "ADD0": {
+            "type": "text",
+            "f": {
+             "TEXT": "Won:"
+            }
+           },
+           "ADD1": {
+            "type": "variables_get",
+            "f": {
+             "VAR": "dalembert:profit"
+            }
+           }
+          }
+         }
+        }
+       }
+      ],
+      "ELSE": [
+       {
+        "type": "notify",
+        "f": {
+         "NOTIFICATION_TYPE": "warn",
+         "NOTIFICATION_SOUND": "silent"
+        },
+        "v": {
+         "MESSAGE": {
+          "type": "text_join",
+          "m": {
+           "items": "2"
+          },
+          "v": {
+           "ADD0": {
+            "type": "text",
+            "f": {
+             "TEXT": "Lost: "
+            }
+           },
+           "ADD1": {
+            "type": "math_single",
+            "f": {
+             "OP": "ABS"
+            },
+            "v": {
+             "NUM": {
+              "type": "variables_get",
+              "f": {
+               "VAR": "dalembert:profit"
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      ]
+     }
+    },
+    {
+     "type": "procedures_callnoreturn",
+     "m": {
+      "name": "D'Alembert Core Functionality"
+     },
+     "args": [
+      "dalembert:resultIsWin"
+     ],
+     "v": {
+      "ARG0": {
+       "type": "variables_get",
+       "f": {
+        "VAR": "dalembert:resultIsWin"
+       }
+      }
+     }
+    },
+    {
+     "type": "notify",
+     "f": {
+      "NOTIFICATION_TYPE": "info",
+      "NOTIFICATION_SOUND": "silent"
+     },
+     "v": {
+      "MESSAGE": {
+       "type": "text_join",
+       "m": {
+        "items": "2"
+       },
+       "v": {
+        "ADD0": {
+         "type": "text",
+         "f": {
+          "TEXT": "Total Profit: "
+         }
+        },
+        "ADD1": {
+         "type": "variables_get",
+         "f": {
+          "VAR": "dalembert:totalProfit"
+         }
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "variables_set",
+     "f": {
+      "VAR": "dalembert:tradeAgain"
+     },
+     "v": {
+      "VALUE": {
+       "type": "logic_boolean",
+       "f": {
+        "BOOL": "FALSE"
+       }
+      }
+     }
+    },
+    {
+     "type": "controls_if",
+     "m": {
+      "else": "1"
+     },
+     "v": {
+      "IF0": {
+       "type": "logic_compare",
+       "f": {
+        "OP": "LT"
+       },
+       "v": {
+        "A": {
+         "type": "variables_get",
+         "f": {
+          "VAR": "dalembert:totalProfit"
+         }
+        },
+        "B": {
+         "type": "variables_get",
+         "f": {
+          "VAR": "dalembert:expectedProfit"
+         }
+        }
+       }
+      }
+     },
+     "s": {
+      "DO0": [
+       {
+        "type": "controls_if",
+        "m": {
+         "else": "1"
+        },
+        "v": {
+         "IF0": {
+          "type": "logic_compare",
+          "f": {
+           "OP": "GT"
+          },
+          "v": {
+           "A": {
+            "type": "variables_get",
+            "f": {
+             "VAR": "dalembert:totalProfit"
+            }
+           },
+           "B": {
+            "type": "math_single",
+            "f": {
+             "OP": "NEG"
+            },
+            "v": {
+             "NUM": {
+              "type": "variables_get",
+              "f": {
+               "VAR": "dalembert:maximumLoss"
+              }
+             }
+            }
+           }
+          }
+         }
+        },
+        "s": {
+         "DO0": [
+          {
+           "type": "variables_set",
+           "f": {
+            "VAR": "dalembert:tradeAgain"
+           },
+           "v": {
+            "VALUE": {
+             "type": "logic_boolean",
+             "f": {
+              "BOOL": "TRUE"
+             }
+            }
+           }
+          }
+         ],
+         "ELSE": [
+          {
+           "type": "text_print",
+           "v": {
+            "TEXT": {
+             "type": "text_join",
+             "m": {
+              "items": "2"
+             },
+             "v": {
+              "ADD0": {
+               "type": "text",
+               "f": {
+                "TEXT": "Maximum Loss Occurred! Total Loss: "
+               }
+              },
+              "ADD1": {
+               "type": "math_single",
+               "f": {
+                "OP": "NEG"
+               },
+               "v": {
+                "NUM": {
+                 "type": "variables_get",
+                 "f": {
+                  "VAR": "dalembert:totalProfit"
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         ]
+        }
+       }
+      ],
+      "ELSE": [
+       {
+        "type": "text_print",
+        "v": {
+         "TEXT": {
+          "type": "text_join",
+          "m": {
+           "items": "2"
+          },
+          "v": {
+           "ADD0": {
+            "type": "text",
+            "f": {
+             "TEXT": "Expected Profit Made! Total Profit: "
+            }
+           },
+           "ADD1": {
+            "type": "variables_get",
+            "f": {
+             "VAR": "dalembert:totalProfit"
+            }
+           }
+          }
+         }
+        }
+       }
+      ]
+     }
+    }
+   ],
+   "ret": {
+    "type": "variables_get",
+    "f": {
+     "VAR": "dalembert:tradeAgain"
+    }
+   }
+  }
+ },
+ "ignored": [
+  "sell_at_market"
+ ]
+}
